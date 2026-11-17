@@ -1,0 +1,24 @@
+
+==> 4.1 Download Tomcat 11.0.29 and verify SHA-512
+SHA-512 OK
+
+==> 4.2 Install keystore into $CATALINA_HOME/conf
+Keystore type: PKCS12
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+tomcat, Nov 17, 2026, PrivateKeyEntry, 
+Certificate fingerprint (SHA-256): 81:BE:D7:64:86:64:8B:E2:8F:D4:28:A5:D0:C7:0A:40:23:08:89:3C:D2:40:5E:D1:16:D7:E0:96:9E:8E:9C:D8
+
+==> 4.3 Add HTTPS connector (port 8443) to conf/server.xml
+88:    <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+157:         Tomcat 7 equivalent (ssl-howto): <Connector port="8443" SSLEnabled="true"
+160:    <Connector port="8443"
+
+==> 4.4 Deploy demo web app (/pki-demo)
+
+CATALINA_HOME=/Users/suhail/Desktop/272/Projects/pki-tomcat-tls/tomcat/apache-tomcat-11.0.29
+Start:  /Users/suhail/Desktop/272/Projects/pki-tomcat-tls/tomcat/apache-tomcat-11.0.29/bin/startup.sh
+Stop:   /Users/suhail/Desktop/272/Projects/pki-tomcat-tls/tomcat/apache-tomcat-11.0.29/bin/shutdown.sh
+Browse: https://localhost:8443/pki-demo/

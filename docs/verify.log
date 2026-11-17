@@ -1,0 +1,45 @@
+
+==> 5.1 Certificate chain presented by Tomcat (openssl s_client)
+ 0 s:DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Web Services, CN=www.cmpe272.test
+   i:DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Signing CA, CN=CMPE272 Lab Signing CA
+ 1 s:DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Signing CA, CN=CMPE272 Lab Signing CA
+   i:DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Root CA, CN=CMPE272 Lab Root CA
+ 2 s:DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Root CA, CN=CMPE272 Lab Root CA
+   i:DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Root CA, CN=CMPE272 Lab Root CA
+Peer signature type: rsa_pss_rsae_sha256
+Protocol: TLSv1.3
+Verify return code: 0 (ok)
+
+==> 5.2 Client that trusts the Root CA: curl --cacert ca/root-ca.crt
+HTTP 200, ssl_verify_result=0 (0 = OK)
+
+==> 5.3 Client with only the default OS trust store (should be rejected)
+curl: (60) SSL certificate problem: self signed certificate in certificate chain
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+Rejected as expected: our private Root CA is not in the public trust store.
+
+==> 5.4 Name check: request via SAN www.cmpe272.test (resolved to 127.0.0.1)
+HTTP 200 for https://www.cmpe272.test:8443/pki-demo/
+
+==> 5.5 Java client using a truststore that contains only the Root CA
+Certificate was added to keystore
+HTTP 200 via TLS_AES_256_GCM_SHA384
+  [0] subject: CN=www.cmpe272.test,OU=CMPE272 Lab Web Services,O=CMPE272 Lab,DC=cmpe272,DC=test
+      issuer:  CN=CMPE272 Lab Signing CA,OU=CMPE272 Lab Signing CA,O=CMPE272 Lab,DC=cmpe272,DC=test
+  [1] subject: CN=CMPE272 Lab Signing CA,OU=CMPE272 Lab Signing CA,O=CMPE272 Lab,DC=cmpe272,DC=test
+      issuer:  CN=CMPE272 Lab Root CA,OU=CMPE272 Lab Root CA,O=CMPE272 Lab,DC=cmpe272,DC=test
+  [2] subject: CN=CMPE272 Lab Root CA,OU=CMPE272 Lab Root CA,O=CMPE272 Lab,DC=cmpe272,DC=test
+      issuer:  CN=CMPE272 Lab Root CA,OU=CMPE272 Lab Root CA,O=CMPE272 Lab,DC=cmpe272,DC=test
+
+==> 5.6 Page content
+Secure connection : YES (HTTPS)
+Scheme / port : https / 8443
+TLS protocol : TLSv1.3
+Cipher suite : TLS_CHACHA20_POLY1305_SHA256
+Key size (bits) : 256
+Server : Apache Tomcat/11.0.29
+Java : 21.0.12.1

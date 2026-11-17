@@ -1,0 +1,14 @@
+# Secrets: passphrases, private keys and keystores are never committed
+secrets.env
+*.key
+*.p12
+ca/*/private/
+
+# CA database backups written by `openssl ca`
+*.old
+
+# Tomcat binary distribution (downloaded by scripts/04-setup-tomcat.sh)
+tomcat/apache-tomcat-*/
+tomcat/downloads/
+
+.DS_Store

@@ -1,0 +1,165 @@
+==> 1.1 Create Root CA directories
+==> 1.2 Create Root CA database
+==> 1.3 Create Root CA request (new 4096-bit key + CSR)
+==> 1.4 Self-sign the Root CA certificate
+Using configuration from etc/root-ca.conf
+Check that the request matches the signature
+Signature ok
+Certificate Details:
+        Serial Number: 1 (0x1)
+        Validity
+            Not Before: Nov 17 23:41:02 2026 GMT
+            Not After : Nov 16 23:41:02 2036 GMT
+        Subject:
+            domainComponent           = test
+            domainComponent           = cmpe272
+            organizationName          = CMPE272 Lab
+            organizationalUnitName    = CMPE272 Lab Root CA
+            commonName                = CMPE272 Lab Root CA
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Certificate Sign, CRL Sign
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Subject Key Identifier: 
+                CD:4E:5F:AA:BB:DF:66:8F:5A:8E:D0:05:7D:34:99:B3:4C:C0:30:03
+            X509v3 Authority Key Identifier: 
+                CD:4E:5F:AA:BB:DF:66:8F:5A:8E:D0:05:7D:34:99:B3:4C:C0:30:03
+Certificate is to be certified until Nov 16 23:41:02 2036 GMT (3652 days)
+Write out database with 1 new entries
+Database updated
+subject=DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Root CA, CN=CMPE272 Lab Root CA
+issuer=DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Root CA, CN=CMPE272 Lab Root CA
+notBefore=Nov 17 23:41:02 2026 GMT
+notAfter=Nov 16 23:41:02 2036 GMT
+X509v3 Key Usage: critical
+    Certificate Sign, CRL Sign
+X509v3 Basic Constraints: critical
+    CA:TRUE
+==> 2.1 Create Signing CA directories
+==> 2.2 Create Signing CA database
+==> 2.3 Create Signing CA request (new 3072-bit key + CSR)
+==> 2.4 Root CA signs the Signing CA certificate
+Using configuration from etc/root-ca.conf
+Check that the request matches the signature
+Signature ok
+Certificate Details:
+        Serial Number: 2 (0x2)
+        Validity
+            Not Before: Nov 17 23:41:02 2026 GMT
+            Not After : Nov 16 23:41:02 2036 GMT
+        Subject:
+            domainComponent           = test
+            domainComponent           = cmpe272
+            organizationName          = CMPE272 Lab
+            organizationalUnitName    = CMPE272 Lab Signing CA
+            commonName                = CMPE272 Lab Signing CA
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Certificate Sign, CRL Sign
+            X509v3 Basic Constraints: critical
+                CA:TRUE, pathlen:0
+            X509v3 Subject Key Identifier: 
+                AE:6F:5D:2D:77:13:5C:83:7C:E8:23:95:78:A5:CC:57:6C:98:47:9E
+            X509v3 Authority Key Identifier: 
+                CD:4E:5F:AA:BB:DF:66:8F:5A:8E:D0:05:7D:34:99:B3:4C:C0:30:03
+Certificate is to be certified until Nov 16 23:41:02 2036 GMT (3652 days)
+Write out database with 1 new entries
+Database updated
+subject=DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Signing CA, CN=CMPE272 Lab Signing CA
+issuer=DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Root CA, CN=CMPE272 Lab Root CA
+notBefore=Nov 17 23:41:02 2026 GMT
+notAfter=Nov 16 23:41:02 2036 GMT
+X509v3 Key Usage: critical
+    Certificate Sign, CRL Sign
+X509v3 Basic Constraints: critical
+    CA:TRUE, pathlen:0
+==> 3.1 Create TLS server request (new 2048-bit key + CSR, SAN=DNS:www.cmpe272.test,DNS:localhost,IP:127.0.0.1)
+==> 3.2 Signing CA issues the TLS server certificate
+Using configuration from etc/signing-ca.conf
+Check that the request matches the signature
+Signature ok
+Certificate Details:
+        Serial Number: 1 (0x1)
+        Validity
+            Not Before: Nov 17 23:41:02 2026 GMT
+            Not After : Nov 16 23:41:02 2028 GMT
+        Subject:
+            domainComponent           = test
+            domainComponent           = cmpe272
+            organizationName          = CMPE272 Lab
+            organizationalUnitName    = CMPE272 Lab Web Services
+            commonName                = www.cmpe272.test
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Subject Key Identifier: 
+                61:A7:43:D9:44:11:F5:17:B3:60:CE:40:61:38:66:98:F7:D1:D9:DB
+            X509v3 Authority Key Identifier: 
+                AE:6F:5D:2D:77:13:5C:83:7C:E8:23:95:78:A5:CC:57:6C:98:47:9E
+            X509v3 Subject Alternative Name: 
+                DNS:www.cmpe272.test, DNS:localhost, IP Address:127.0.0.1
+Certificate is to be certified until Nov 16 23:41:02 2028 GMT (730 days)
+Write out database with 1 new entries
+Database updated
+==> 3.3 Create CA chain file (Signing CA + Root CA)
+==> 3.4 Create initial CRLs (tutorial sections 1.5, 2.5)
+Using configuration from etc/root-ca.conf
+Using configuration from etc/signing-ca.conf
+==> 3.5 Create DER versions of the certificates and CRLs (tutorial section 4)
+==> 3.6 Bundle key + certificate + chain into a PKCS#12 keystore for Tomcat
+==> 3.7 Verify the certificate chain
+certs/www.cmpe272.test.crt: OK
+subject=DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Web Services, CN=www.cmpe272.test
+issuer=DC=test, DC=cmpe272, O=CMPE272 Lab, OU=CMPE272 Lab Signing CA, CN=CMPE272 Lab Signing CA
+notBefore=Nov 17 23:41:02 2026 GMT
+notAfter=Nov 16 23:41:02 2028 GMT
+X509v3 Key Usage: critical
+    Digital Signature, Key Encipherment
+X509v3 Basic Constraints: 
+    CA:FALSE
+X509v3 Extended Key Usage: 
+    TLS Web Server Authentication, TLS Web Client Authentication
+X509v3 Subject Alternative Name: 
+    DNS:www.cmpe272.test, DNS:localhost, IP Address:127.0.0.1
+==> Done. Artifacts:
+ca/root-ca.cer
+ca/root-ca.crt
+ca/root-ca.csr
+ca/root-ca/01.pem
+ca/root-ca/02.pem
+ca/root-ca/db/root-ca.crl.srl
+ca/root-ca/db/root-ca.crl.srl.old
+ca/root-ca/db/root-ca.crt.srl
+ca/root-ca/db/root-ca.crt.srl.old
+ca/root-ca/db/root-ca.db
+ca/root-ca/db/root-ca.db.attr
+ca/root-ca/db/root-ca.db.attr.old
+ca/root-ca/db/root-ca.db.old
+ca/root-ca/private/root-ca.key
+ca/signing-ca-chain.pem
+ca/signing-ca.cer
+ca/signing-ca.crt
+ca/signing-ca.csr
+ca/signing-ca/01.pem
+ca/signing-ca/db/signing-ca.crl.srl
+ca/signing-ca/db/signing-ca.crl.srl.old
+ca/signing-ca/db/signing-ca.crt.srl
+ca/signing-ca/db/signing-ca.crt.srl.old
+ca/signing-ca/db/signing-ca.db
+ca/signing-ca/db/signing-ca.db.attr
+ca/signing-ca/db/signing-ca.db.attr.old
+ca/signing-ca/db/signing-ca.db.old
+ca/signing-ca/private/signing-ca.key
+certs/www.cmpe272.test.crt
+certs/www.cmpe272.test.csr
+certs/www.cmpe272.test.key
+certs/www.cmpe272.test.p12
+crl/root-ca.crl
+crl/root-ca.der.crl
+crl/signing-ca.crl
+crl/signing-ca.der.crl

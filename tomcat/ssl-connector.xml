@@ -1,0 +1,20 @@
+    <!-- ===== CMPE272 PKI lab: HTTPS connector using the TLS certificate =====
+         Issued by "CMPE272 Lab Signing CA", which is signed by "CMPE272 Lab Root CA".
+         The PKCS#12 keystore holds the server key, the server certificate and the
+         CA chain, so Tomcat sends the full chain (server + Signing CA) to clients.
+         Tomcat 7 equivalent (ssl-howto): <Connector port="8443" SSLEnabled="true"
+           scheme="https" secure="true" keystoreFile="..." keystorePass="..."
+           keystoreType="PKCS12" sslProtocol="TLS" clientAuth="false"/> -->
+    <Connector port="8443"
+               protocol="org.apache.coyote.http11.Http11NioProtocol"
+               maxThreads="150" SSLEnabled="true" scheme="https" secure="true">
+        <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
+        <SSLHostConfig protocols="TLSv1.2+TLSv1.3">
+            <Certificate certificateKeystoreFile="conf/@KEYSTORE_FILE@"
+                         certificateKeystorePassword="@KEYSTORE_PASS@"
+                         certificateKeystoreType="PKCS12"
+                         certificateKeyAlias="@KEYSTORE_ALIAS@"
+                         type="RSA" />
+        </SSLHostConfig>
+    </Connector>
+    <!-- ===== end CMPE272 PKI lab ===== -->
